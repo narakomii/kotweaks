@@ -1,0 +1,52 @@
+{
+  "required": true,
+  "package": "narakomii.kotweaks.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "mixins": [
+    "ControllerTypeAdapterMixin",
+    "accessors.EntityAzimuthConnectionAccessor",
+    "accessors.EntityBlockConnectionAccessor",
+    "accessors.EntityChunkConnectionAccessor",
+    "accessors.ServerLevelAccessor",
+    "accessors.ServerWaypointManagerAccessor",
+    "accessors.SuggestionsBuilderAccessor",
+    "accessors.WaypointCommandAccessor",
+    "block.BlockDropMagnetismMixin",
+    "block.CactusNoDeleteItemMixin",
+    "block.ComposterHopperInputMixin",
+    "block.CropExperienceDropMixin",
+    "block.DispenserPlantingMixin",
+    "entity.EntityCustomDataMixin",
+    "entity.EntityDropMagnetismMixin",
+    "entity.MobMixin",
+    "entity.SpecialMobMixin",
+    "entity.player.PlayerMagnetismMixin",
+    "entity.player.PlayerMixin",
+    "item.ConnectionMixin",
+    "item.EnchantmentBuilderExpansionMixin",
+    "item.IngredientMixin",
+    "item.ItemStackMixin",
+    "item.Net2ClientRegistryDataMixin",
+    "item.PacketMixin",
+    "item.RegistrySyncManagerMixin",
+    "item.RegistrySyncMixin",
+    "item.RegistrySyncTaskMixin",
+    "item.ServerPacketHandlerMixin",
+    "item.ShapelessRecipeMixin",
+    "item.broken.BrokenComponentMixin",
+    "item.broken.BrokenComponentSyncMixin",
+    "item.broken.BrokenEnchantMixin",
+    "item.broken.BrokenInventoryMixin",
+    "item.broken.BrokenItemMixin",
+    "item.broken.BrokenMaceMixin",
+    "item.broken.BrokenStackMixin",
+    "server.WaypointManagerMixin",
+    "world.LevelSleepMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+	}
+}

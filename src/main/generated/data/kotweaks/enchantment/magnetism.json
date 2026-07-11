@@ -1,0 +1,22 @@
+{
+  "anvil_cost": 8,
+  "description": {
+    "fallback": "Magnetism",
+    "translate": "enchantment.kotweaks.magnetism"
+  },
+  "max_cost": {
+    "base": 50,
+    "per_level_above_first": 9
+  },
+  "max_level": 1,
+  "min_cost": {
+    "base": 25,
+    "per_level_above_first": 9
+  },
+  "primary_items": "#minecraft:enchantable/vanishing",
+  "slots": [
+    "any"
+  ],
+  "supported_items": "#minecraft:enchantable/vanishing",
+  "weight": 1
+}

@@ -1,0 +1,36 @@
+{
+	"schemaVersion": 1,
+	"id": "kotweaks",
+	"version": "${version}",
+	"name": "kotweaks",
+	"description": "This is an example description! Tell everyone what your mod is about!",
+	"authors": [
+		"narakomii"
+	],
+	"contact": {
+		"homepage": "",
+		"sources": ""
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/kotweaks/icon.png",
+	"environment": "*",
+	"accessWidener": "kotweaks.classtweaker",
+	"entrypoints": {
+		"main": [
+			"narakomii.kotweaks.KoTweaks"
+		],
+		"fabric-datagen": [
+			"narakomii.kotweaks.datagen.DataGenerator"
+		]
+	},
+	"mixins": [
+		"kotweaks.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=${loader_version}",
+		"minecraft": "${minecraft_version}",
+		"java": ">=${jdk_version}",
+		"fabric-api": "*",
+		"blossom-lib": "${blossomlib_version}"
+	}
+}

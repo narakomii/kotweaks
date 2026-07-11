@@ -1,0 +1,11 @@
+classTweaker  v1  official
+
+accessible class net/minecraft/world/level/block/ComposterBlock$InputContainer
+accessible method net/minecraft/server/commands/TeleportCommand teleportToPos (Lnet/minecraft/commands/CommandSourceStack;Ljava/util/Collection;Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/commands/arguments/coordinates/Coordinates;Lnet/minecraft/commands/arguments/coordinates/Coordinates;Lnet/minecraft/server/commands/LookAt;)I
+accessible method net/minecraft/server/commands/TeleportCommand teleportToEntity (Lnet/minecraft/commands/CommandSourceStack;Ljava/util/Collection;Lnet/minecraft/world/entity/Entity;)I
+accessible method net/minecraft/world/entity/Mob asValidTarget (Lnet/minecraft/world/entity/LivingEntity;)Lnet/minecraft/world/entity/LivingEntity;
+accessible method net/minecraft/world/entity/player/StackedContents put (Ljava/lang/Object;I)V
+accessible method net/minecraft/world/entity/player/StackedContents take (Ljava/lang/Object;I)V
+accessible method net/minecraft/core/component/DataComponentPatch <init> (Lit/unimi/dsi/fastutil/objects/Reference2ObjectMap;)V
+accessible method net/minecraft/world/entity/player/StackedContents getUniqueAvailableIngredientItems (Ljava/lang/Iterable;)Ljava/util/List;
+accessible class net/minecraft/world/entity/player/StackedContents$RecipePicker
