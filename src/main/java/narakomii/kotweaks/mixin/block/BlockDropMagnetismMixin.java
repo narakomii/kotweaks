@@ -1,6 +1,6 @@
 package narakomii.kotweaks.mixin.block;
 
-import narakomii.kotweaks.enchantment.ModEnchantments;
+import narakomii.kotweaks.game.ModEnchantments;
 import narakomii.kotweaks.utils.ItemUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;

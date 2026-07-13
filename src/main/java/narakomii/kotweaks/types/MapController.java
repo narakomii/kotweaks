@@ -47,7 +47,7 @@ public abstract class MapController<K extends Serializable & Comparable<K>, V> {
         } catch (FileNotFoundException e) {
             write();
         } catch (ClassCastException e) {
-            KoTweaks.LOGGER.error("Error reading config, malformed JSON? [{}]", file());
+            KoTweaks.LOGGER.error(CommandUtils.formatError("Error reading config, malformed JSON?: " + file(), e));
         }
     }
 
@@ -57,7 +57,7 @@ public abstract class MapController<K extends Serializable & Comparable<K>, V> {
             GSON.toJson(map, writer);
             writer.close();
         } catch (IOException e) {
-            KoTweaks.LOGGER.error(CommandUtils.formatError(e));
+            KoTweaks.LOGGER.error(CommandUtils.formatError("Error writing config: " + file(), e));
         }
     }
 

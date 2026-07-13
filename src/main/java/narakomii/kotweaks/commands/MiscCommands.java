@@ -5,8 +5,8 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import dev.codedsakura.blossom.lib.permissions.Permissions;
 import narakomii.kotweaks.KoTweaks;
-import narakomii.kotweaks.data.entity.CustomEntityDataAccess;
-import narakomii.kotweaks.item.ModItems;
+import narakomii.kotweaks.storage.entity.CustomEntityDataAccess;
+import narakomii.kotweaks.game.ModItems;
 import narakomii.kotweaks.utils.CommandUtils;
 import narakomii.kotweaks.utils.ItemUtils;
 import narakomii.kotweaks.utils.TypeUtils;
@@ -51,7 +51,7 @@ public class MiscCommands {
                                         }
 
                                     } catch (Exception e) {
-                                        KoTweaks.LOGGER.error(CommandUtils.formatError(e));
+                                        KoTweaks.LOGGER.error(CommandUtils.formatError("Internal error during command", e));
                                     }
 
                                     return Command.SINGLE_SUCCESS;
@@ -103,7 +103,7 @@ public class MiscCommands {
     private static final CompoundTag maulerTag;
     static {
         try {
-            maulerTag = TagParser.parseCompoundFully("{PersistenceRequired:1b,DeathLootTable:\"minecraft:empty\",CanPickUpLoot:0b,equipment:{feet:{id:\"minecraft:diamond_boots\",count:1,components:{\"minecraft:enchantments\":{\"feather_falling\":4,\"protection\":4,\"thorns\":3,\"depth_strider\":3,\"soul_speed\":3,\"mending\":1,\"unbreaking\":3},\"minecraft:unbreakable\":{}}},legs:{id:\"minecraft:diamond_leggings\",count:1,components:{\"minecraft:enchantments\":{\"protection\":4,\"thorns\":3,\"swift_sneak\":3,\"mending\":1,\"unbreaking\":3},\"minecraft:unbreakable\":{}}},chest:{id:\"minecraft:diamond_chestplate\",count:1,components:{\"minecraft:enchantments\":{\"protection\":4,\"thorns\":3,\"mending\":1,\"unbreaking\":3},\"minecraft:unbreakable\":{}}},head:{id:\"minecraft:diamond_helmet\",count:1,components:{\"minecraft:enchantments\":{\"protection\":4,\"thorns\":3,\"aqua_affinity\":1,\"respiration\":3,\"mending\":1,\"unbreaking\":3},\"minecraft:unbreakable\":{}}},mainhand:{id:\"minecraft:diamond_sword\",count:1,components:{\"minecraft:enchantments\":{\"fire_aspect\":2,\"looting\":3,\"sharpness\":5,\"sweeping_edge\":3,\"mending\":1,\"unbreaking\":3},\"minecraft:unbreakable\":{}}}},drop_chances:{feet:0.000,legs:0.000,chest:0.000,head:0.000,mainhand:0.000},attributes:[{id:\"minecraft:spawn_reinforcements\",base:0},{id:\"minecraft:movement_speed\",base:0.35},{id:\"minecraft:scale\",base:1.2}]}");
+            maulerTag = TagParser.parseCompoundFully("{PersistenceRequired:1b,DeathLootTable:\"minecraft:empty\",CanPickUpLoot:0b,equipment:{feet:{id:\"minecraft:diamond_boots\",count:1,components:{\"minecraft:enchantments\":{\"feather_falling\":4,\"protection\":5,\"thorns\":5,\"depth_strider\":3,\"soul_speed\":3,\"mending\":1,\"unbreaking\":3},\"minecraft:unbreakable\":{}}},legs:{id:\"minecraft:diamond_leggings\",count:1,components:{\"minecraft:enchantments\":{\"protection\":5,\"thorns\":5,\"swift_sneak\":3,\"mending\":1,\"unbreaking\":3},\"minecraft:unbreakable\":{}}},chest:{id:\"minecraft:diamond_chestplate\",count:1,components:{\"minecraft:enchantments\":{\"protection\":5,\"thorns\":5,\"mending\":1,\"unbreaking\":3},\"minecraft:unbreakable\":{}}},head:{id:\"minecraft:diamond_helmet\",count:1,components:{\"minecraft:enchantments\":{\"protection\":5,\"thorns\":5,\"aqua_affinity\":1,\"respiration\":3,\"mending\":1,\"unbreaking\":3},\"minecraft:unbreakable\":{}}},mainhand:{id:\"minecraft:diamond_sword\",count:1,components:{\"minecraft:enchantments\":{\"fire_aspect\":2,\"looting\":3,\"sharpness\":7,\"knockback\":1,\"sweeping_edge\":3,\"mending\":1,\"unbreaking\":3},\"minecraft:unbreakable\":{}}}},drop_chances:{feet:0.000,legs:0.000,chest:0.000,head:0.000,mainhand:0.000},attributes:[{id:\"minecraft:spawn_reinforcements\",base:0},{id:\"minecraft:movement_speed\",base:0.35},{id:\"minecraft:scale\",base:1.2}]}");
         } catch (CommandSyntaxException e) {
             throw new RuntimeException(e);
         }

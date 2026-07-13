@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(EnchantmentHelper.class)
-abstract class BrokenEnchantMixin {
+abstract class BrokenEnchantMaskMixin {
     @Inject(method = "runIterationOnItem(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/enchantment/EnchantmentHelper$EnchantmentVisitor;)V", at = @At("HEAD"), cancellable = true)
     private static void runIterationOnItem(ItemStack piece, EnchantmentHelper.EnchantmentVisitor method, CallbackInfo ci) {
         if (piece != null && piece.isBroken())

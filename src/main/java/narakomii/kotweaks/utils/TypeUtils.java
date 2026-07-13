@@ -3,6 +3,7 @@ package narakomii.kotweaks.utils;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.component.TypedDataComponent;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import org.jspecify.annotations.NonNull;
@@ -28,6 +29,16 @@ public final class TypeUtils {
             return lazy;
 
         return new LazySupplier<>(supplier);
+    }
+
+    public static <T> T firstNonNull(T... values) {
+        for (T value : values) {
+            if (value != null) {
+                return value;
+            }
+        }
+
+        throw new NullPointerException();
     }
 
     public static class LazySupplier<T> implements Supplier<T> {
@@ -58,5 +69,9 @@ public final class TypeUtils {
 
     public static <A, C> C checkedApply(A a, Function<A, C> f, C fallback) {
         return a != null ? f.apply(a) : fallback;
+    }
+
+    public static boolean isNull(TypedDataComponent<?> component) {
+        return component == null || component.value() == null;
     }
 }

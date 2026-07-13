@@ -1,4 +1,4 @@
-package narakomii.kotweaks.data.entity;
+package narakomii.kotweaks.storage.entity;
 
 import narakomii.kotweaks.KoTweaks;
 import narakomii.kotweaks.types.EntityDataExtension;

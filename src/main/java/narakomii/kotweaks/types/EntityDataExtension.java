@@ -1,6 +1,6 @@
 package narakomii.kotweaks.types;
 
-import narakomii.kotweaks.data.entity.CustomEntityDataAccess;
+import narakomii.kotweaks.storage.entity.CustomEntityDataAccess;
 import net.minecraft.nbt.CompoundTag;
 
 public interface EntityDataExtension {

@@ -1,6 +1,6 @@
 package narakomii.kotweaks.mixin.entity;
 
-import narakomii.kotweaks.data.entity.CustomEntityDataAccess;
+import narakomii.kotweaks.storage.entity.CustomEntityDataAccess;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;

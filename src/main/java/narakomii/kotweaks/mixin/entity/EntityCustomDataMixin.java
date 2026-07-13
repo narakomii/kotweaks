@@ -1,6 +1,6 @@
 package narakomii.kotweaks.mixin.entity;
 
-import narakomii.kotweaks.data.entity.CustomEntityDataAccess;
+import narakomii.kotweaks.storage.entity.CustomEntityDataAccess;
 import narakomii.kotweaks.types.EntityDataExtension;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;

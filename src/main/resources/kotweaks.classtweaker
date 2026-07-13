@@ -9,3 +9,8 @@ accessible method net/minecraft/world/entity/player/StackedContents take (Ljava/
 accessible method net/minecraft/core/component/DataComponentPatch <init> (Lit/unimi/dsi/fastutil/objects/Reference2ObjectMap;)V
 accessible method net/minecraft/world/entity/player/StackedContents getUniqueAvailableIngredientItems (Ljava/lang/Iterable;)Ljava/util/List;
 accessible class net/minecraft/world/entity/player/StackedContents$RecipePicker
+accessible field net/minecraft/world/item/ItemStack item Lnet/minecraft/core/Holder;
+accessible field net/minecraft/world/item/ItemStack count I
+accessible field net/minecraft/world/item/ItemStack components Lnet/minecraft/core/component/PatchedDataComponentMap;
+accessible field net/minecraft/world/entity/player/Player DATA_PLAYER_ABSORPTION_ID Lnet/minecraft/network/syncher/EntityDataAccessor;
+accessible field net/minecraft/client/multiplayer/KnownPacksManager knownPackToId Ljava/util/Map;

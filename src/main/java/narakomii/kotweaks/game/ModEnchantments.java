@@ -1,4 +1,4 @@
-package narakomii.kotweaks.enchantment;
+package narakomii.kotweaks.game;
 
 import narakomii.kotweaks.KoTweaks;
 import net.minecraft.core.registries.Registries;

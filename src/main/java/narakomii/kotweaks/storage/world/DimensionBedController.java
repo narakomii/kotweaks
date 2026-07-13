@@ -1,4 +1,4 @@
-package narakomii.kotweaks.data.world;
+package narakomii.kotweaks.storage.world;
 
 import com.google.gson.reflect.TypeToken;
 import narakomii.kotweaks.types.MapController;

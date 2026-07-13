@@ -1,7 +1,7 @@
 package narakomii.kotweaks.mixin.entity.player;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import narakomii.kotweaks.enchantment.ModEnchantments;
+import narakomii.kotweaks.game.ModEnchantments;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;

@@ -2,17 +2,18 @@ package narakomii.kotweaks;
 
 import narakomii.kotweaks.commands.DebugCommands;
 import narakomii.kotweaks.commands.MiscCommands;
-import narakomii.kotweaks.data.world.CropExpController;
-import narakomii.kotweaks.data.world.DimensionBedController;
-import narakomii.kotweaks.data.player.LocatorController;
-import narakomii.kotweaks.enchantment.ModEnchantments;
-import narakomii.kotweaks.item.ModItems;
+import narakomii.kotweaks.storage.world.CropExpController;
+import narakomii.kotweaks.storage.world.DimensionBedController;
+import narakomii.kotweaks.storage.player.LocatorController;
+import narakomii.kotweaks.game.ModEnchantments;
+import narakomii.kotweaks.game.ModItems;
 import narakomii.kotweaks.utils.CommandUtils;
 import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
@@ -31,10 +32,11 @@ import java.lang.reflect.RecordComponent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 public class KoTweaks implements ModInitializer {
+	public static final boolean DEBUG = false;
+
 	public static final String MOD_ID = "kotweaks";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 	public static String idString(String path) {
@@ -49,59 +51,12 @@ public class KoTweaks implements ModInitializer {
 	public static final LocatorController locatorController = new LocatorController();
 
 	public static final File FOLDER = FabricLoader.getInstance().getConfigDir().resolve(MOD_ID).toFile();
-	private static int flag1 = 0;
-
-	static {
-		Reflections reflections = new Reflections("net.minecraft.network.protocol");
-		reflections.getSubTypesOf(Packet.class).forEach(packetClass -> {
-            List<Field> fields = new ArrayList<>();
-			boolean flag1 = false;
-			if (packetClass.isRecord()) {
-				for (RecordComponent field : packetClass.getRecordComponents()) {
-					Class<?> clazz = field.getType();
-					if (
-							clazz.equals(ItemStack.class)
-									|| clazz.equals(Item.class)
-									|| (clazz.equals(Holder.class) && field.getName().contains("item"))
-									|| (clazz.equals(List.class) && field.getName().contains("item"))
-									|| clazz.equals(Inventory.class)
-					) {
-						flag1 = true;
-						break;
-					}
-				}
-				if (flag1) {
-					LOGGER.info("{}: {}", packetClass.getSimpleName(), Arrays.stream(packetClass.getRecordComponents()).map(co -> co.getType().getSimpleName() + " " + co.getName()).collect(Collectors.joining(", ")));
-				}
-			} else {
-				var constructors = packetClass.getConstructors();
-				if (constructors.length > 0) {
-					for (Parameter field : constructors[0].getParameters()) {
-						Class<?> clazz = field.getType();
-						if (
-								clazz.equals(ItemStack.class)
-										|| clazz.equals(Item.class)
-										|| (clazz.equals(Holder.class) && field.getName().contains("item"))
-										|| (clazz.equals(List.class) && field.getName().contains("item"))
-										|| clazz.equals(Inventory.class)
-						) {
-							if (field.accessFlags().stream().allMatch(f -> f.equals(AccessFlag.PRIVATE) || f.equals(AccessFlag.FINAL))) {
-								flag1 = true;
-								break;
-							}
-						}
-					}
-				}
-				if (flag1) {
-					LOGGER.info("{}: {}", packetClass.getSimpleName(), Arrays.stream(constructors[0].getParameters()).map(co -> co.getType().getSimpleName() + " " + co.getName()).collect(Collectors.joining(", ")));
-				}
-			}
-        });
-	}
 
 	//TODO add /locator option to change settings of another player
 
 	//TODO what class/method did i find in another mod and copy? i need to credit it
+
+	public static HolderLookup.Provider registryLookup;
 
 	@Override
 	public void onInitialize() {
@@ -125,5 +80,54 @@ public class KoTweaks implements ModInitializer {
 		dimensionBedController.reload(server);
 		cropExpController.reload(server);
 		locatorController.reload(server);
+
+		registryLookup = server.registryAccess();
+	}
+
+	private static int flag1 = 0;
+	static {
+		Reflections reflections = new Reflections("net.minecraft.network.protocol");
+		reflections.getSubTypesOf(Packet.class).forEach(packetClass -> {
+			List<Field> fields = new ArrayList<>();
+			boolean flag1 = false;
+			if (packetClass.isRecord()) {
+				for (RecordComponent field : packetClass.getRecordComponents()) {
+					Class<?> clazz = field.getType();
+					if (
+							clazz.equals(ItemStack.class)
+									|| clazz.equals(Item.class)
+									|| (clazz.equals(Holder.class) && field.getName().contains("item"))
+									|| (clazz.equals(List.class) && field.getName().contains("item"))
+									|| clazz.equals(Inventory.class)
+					) {
+						flag1 = true;
+						break;
+					}
+				}
+				if (flag1 && DEBUG)
+					LOGGER.info("{}: {}", packetClass.getSimpleName(), Arrays.stream(packetClass.getRecordComponents()).map(co -> co.getType().getSimpleName() + " " + co.getName()).collect(Collectors.joining(", ")));
+			} else {
+				var constructors = packetClass.getConstructors();
+				if (constructors.length > 0) {
+					for (Parameter field : constructors[0].getParameters()) {
+						Class<?> clazz = field.getType();
+						if (
+								clazz.equals(ItemStack.class)
+										|| clazz.equals(Item.class)
+										|| (clazz.equals(Holder.class) && field.getName().contains("item"))
+										|| (clazz.equals(List.class) && field.getName().contains("item"))
+										|| clazz.equals(Inventory.class)
+						) {
+							if (field.accessFlags().stream().allMatch(f -> f.equals(AccessFlag.PRIVATE) || f.equals(AccessFlag.FINAL))) {
+								flag1 = true;
+								break;
+							}
+						}
+					}
+				}
+				if (flag1 && DEBUG)
+					LOGGER.info("{}: {}", packetClass.getSimpleName(), Arrays.stream(constructors[0].getParameters()).map(co -> co.getType().getSimpleName() + " " + co.getName()).collect(Collectors.joining(", ")));
+			}
+		});
 	}
 }

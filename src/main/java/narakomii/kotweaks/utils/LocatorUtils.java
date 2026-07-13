@@ -1,7 +1,7 @@
 package narakomii.kotweaks.utils;
 
 import narakomii.kotweaks.KoTweaks;
-import narakomii.kotweaks.data.player.LocatorController;
+import narakomii.kotweaks.storage.player.LocatorController;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.waypoints.ServerWaypointManager;

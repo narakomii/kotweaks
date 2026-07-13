@@ -18,29 +18,21 @@
     "block.DispenserPlantingMixin",
     "entity.EntityCustomDataMixin",
     "entity.EntityDropMagnetismMixin",
-    "entity.MobMixin",
+    "entity.MobBrokenItemMaskMixin",
     "entity.SpecialMobMixin",
     "entity.player.PlayerMagnetismMixin",
     "entity.player.PlayerMixin",
-    "item.ConnectionMixin",
     "item.EnchantmentBuilderExpansionMixin",
-    "item.IngredientMixin",
-    "item.ItemStackMixin",
-    "item.Net2ClientRegistryDataMixin",
-    "item.PacketMixin",
-    "item.RegistrySyncManagerMixin",
-    "item.RegistrySyncMixin",
-    "item.RegistrySyncTaskMixin",
-    "item.ServerPacketHandlerMixin",
-    "item.ShapelessRecipeMixin",
-    "item.broken.BrokenComponentMixin",
-    "item.broken.BrokenComponentSyncMixin",
-    "item.broken.BrokenEnchantMixin",
-    "item.broken.BrokenInventoryMixin",
-    "item.broken.BrokenItemMixin",
+    "item.HoverItemMaskMixin",
+    "item.ItemNameMaskMixin",
+    "item.broken.BrokenEnchantMaskMixin",
+    "item.broken.BrokenItemStackMixin",
     "item.broken.BrokenMaceMixin",
-    "item.broken.BrokenStackMixin",
-    "server.WaypointManagerMixin",
+    "network.C2SItemMaskMixin",
+    "network.FabricRegistryOverrideMixin",
+    "network.LocatorConnectionMixin",
+    "network.S2CEntityItemMaskMixin",
+    "network.S2CItemMaskMixin",
     "world.LevelSleepMixin"
   ],
   "injectors": {
@@ -48,5 +40,5 @@
   },
   "overwrites": {
     "requireAnnotations": true
-	}
+  }
 }

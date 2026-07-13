@@ -1,6 +1,6 @@
-package narakomii.kotweaks.datagen;
+package narakomii.kotweaks.game.datagen;
 
-import narakomii.kotweaks.enchantment.ModEnchantments;
+import narakomii.kotweaks.game.ModEnchantments;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import net.minecraft.core.HolderLookup;

@@ -1,4 +1,4 @@
-package narakomii.kotweaks.data.player;
+package narakomii.kotweaks.storage.player;
 
 import com.google.gson.reflect.TypeToken;
 import com.mojang.brigadier.Command;

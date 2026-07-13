@@ -6,6 +6,7 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
+import narakomii.kotweaks.KoTweaks;
 import narakomii.kotweaks.utils.CommandUtils;
 import narakomii.kotweaks.utils.ItemUtils;
 import net.minecraft.commands.CommandSourceStack;
@@ -15,6 +16,7 @@ import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.commands.arguments.coordinates.RotationArgument;
 import net.minecraft.commands.arguments.coordinates.Vec3Argument;
 import net.minecraft.commands.arguments.item.ItemArgument;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.commands.LookAt;
 import net.minecraft.server.commands.TeleportCommand;
 import net.minecraft.server.level.ServerPlayer;
@@ -81,7 +83,14 @@ public class DebugCommands {
                             .then(Commands.literal("info")
                                     .executes(wrap(ctx -> {
                                         var item = getSelectedItem(ctx.getSource().getPlayerOrException().getInventory());
-                                        CommandUtils.tell(ctx, item.getItem().builtInRegistryHolder().key().identifier().toString());
+                                        //CommandUtils.tellFormat(ctx, "%s", BuiltInRegistries.ITEM.getKey(item.getItem()));
+                                        CommandUtils.tell(ctx, CommandUtils.formatItem(item, true));
+                                    }))
+                            )
+                            .then(Commands.literal("info-long")
+                                    .executes(wrap(ctx -> {
+                                        var item = getSelectedItem(ctx.getSource().getPlayerOrException().getInventory());
+                                        CommandUtils.tell(ctx, CommandUtils.formatItem(item, false));
                                     }))
                             )
                     )

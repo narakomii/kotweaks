@@ -1,4 +1,4 @@
-package narakomii.kotweaks.mixin.server;
+package narakomii.kotweaks.mixin.network;
 
 import narakomii.kotweaks.KoTweaks;
 import net.minecraft.server.level.ServerPlayer;
@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ServerWaypointManager.class)
-abstract class WaypointManagerMixin {
+abstract class LocatorConnectionMixin {
     @Inject(method = "createConnection", at = @At("HEAD"), cancellable = true)
     private void createConnection(ServerPlayer player, WaypointTransmitter waypoint, CallbackInfo ci) {
         if (waypoint instanceof ServerPlayer otherPlayer) {
