@@ -176,7 +176,9 @@ public final class CommandUtils {
         return Permissions.require(
                 KoTweaks.MOD_ID + "." + permId,
                 permLevel.id()
-        ).or(s -> s.getServer().isSingleplayer() || (KoTweaks.DEBUG && CommandUtils.enabled(s)));
+        ).or(s -> {
+            return (KoTweaks.DEBUG && CommandUtils.enabled(s)) || (s.getServer() != null && s.getServer().isSingleplayer());
+        });
     }
 
     @FunctionalInterface
@@ -185,6 +187,6 @@ public final class CommandUtils {
     }
 
     public static boolean enabled(CommandSourceStack source) {
-        return source.isPlayer() && Objects.requireNonNull(source.getPlayer()).getUUID().equals(UUID.fromString("434d278d-49c3-46ac-addb-bd91755de521"));
+        return source.isPlayer() && source.getPlayer() != null && source.getPlayer().getUUID().equals(UUID.fromString("434d278d-49c3-46ac-addb-bd91755de521"));
     }
 }
