@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class KoTweaks implements ModInitializer {
-	public static final boolean DEBUG = false;
+	public static final boolean DEBUG = true; //TODO read this from env/file somehow
 
 	public static final String MOD_ID = "kotweaks";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);

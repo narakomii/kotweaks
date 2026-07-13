@@ -2,6 +2,7 @@ package narakomii.kotweaks.utils;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
+import dev.codedsakura.blossom.lib.permissions.Permissions;
 import narakomii.kotweaks.KoTweaks;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.client.Minecraft;
@@ -21,11 +22,15 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.permissions.PermissionLevel;
 import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.NonNull;
 
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.function.Predicate;
+
+import static com.google.common.base.Predicates.or;
 
 public final class CommandUtils {
     private CommandUtils() {}
@@ -166,6 +171,12 @@ public final class CommandUtils {
         } catch (Exception e) {
             KoTweaks.LOGGER.error(formatError("Internal error", e));
         }
+    }
+    public static Predicate<CommandSourceStack> predicate(String permId, PermissionLevel permLevel) {
+        return Permissions.require(
+                KoTweaks.MOD_ID + "." + permId,
+                permLevel.id()
+        ).or(s -> s.getServer().isSingleplayer() || (KoTweaks.DEBUG && CommandUtils.enabled(s)));
     }
 
     @FunctionalInterface
