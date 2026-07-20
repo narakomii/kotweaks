@@ -1,7 +1,6 @@
 package narakomii.kotweaks.commands;
 
 import com.mojang.brigadier.Command;
-import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import dev.codedsakura.blossom.lib.permissions.Permissions;
@@ -27,8 +26,6 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
@@ -88,7 +85,7 @@ public class MiscCommands {
                     return Command.SINGLE_SUCCESS;
                 })
         );
-        CommandUtils.addCommand(registry -> Commands.literal("transfer")
+        CommandUtils.addCommand(registry -> Commands.literal("handto")
                 .requires(Permissions.require("kotweaks.transfer", PermissionLevel.ALL.id()).or(CommandUtils::enabled))
                 .then(
                         Commands.argument("target", EntityArgument.player())

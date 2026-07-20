@@ -16,6 +16,8 @@
     "block.ComposterHopperInputMixin",
     "block.CropExperienceDropMixin",
     "block.DispenserPlantingMixin",
+    "block.SnowSmoothingMixin",
+    "block.WaterFreezeMixin",
     "entity.EntityCustomDataMixin",
     "entity.EntityDropMagnetismMixin",
     "entity.MobBrokenItemMaskMixin",
@@ -32,7 +34,8 @@
     "network.FabricRegistryOverrideMixin",
     "network.LocatorConnectionMixin",
     "network.ServerToClientItemMaskMixin",
-    "world.LevelSleepMixin"
+    "world.LevelSleepMixin",
+    "world.SnowHeightmapMixin"
   ],
   "injectors": {
     "defaultRequire": 1

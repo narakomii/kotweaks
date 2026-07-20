@@ -7,10 +7,12 @@ import narakomii.kotweaks.storage.world.DimensionBedController;
 import narakomii.kotweaks.storage.player.LocatorController;
 import narakomii.kotweaks.game.ModEnchantments;
 import narakomii.kotweaks.game.ModItems;
+import narakomii.kotweaks.types.LevelExtension;
 import narakomii.kotweaks.utils.CommandUtils;
 import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
@@ -57,8 +59,7 @@ public class KoTweaks implements ModInitializer {
 	//TODO enchantment for more block reach
 	//TODO what class/method did i find in another mod and copy? i need to credit it
 	//DONE? fix verymanyplayers item entity chunkban (it was just masking bundled packets...)
-	//TODO custom logger class to reduce boilerplate like KoTweaks.LOGGER.error(CommandUtils.formatError("This is an error", e))1
-	//TODO remove ice variants from #minecraft:cannot_support_snow_layer
+	//TODO custom logger class to reduce boilerplate like KoTweaks.LOGGER.error(CommandUtils.formatError("This is an error", e))
 	//TODO make comparators measure crop age?
 	//TODO bigger xp bottles?
 	//TODO implement stuff like xp consumption instead of level consumption from "improved anvils" mod
@@ -80,6 +81,9 @@ public class KoTweaks implements ModInitializer {
 
 		ServerLifecycleEvents.SERVER_STARTING.register(this::reload);
 		ServerLifecycleEvents.START_DATA_PACK_RELOAD.register((server, resourceManager) -> reload(server));
+		ServerTickEvents.START_LEVEL_TICK.register((level) -> {
+			((LevelExtension) level).kotweaks$snowHeightMap().tick();
+		});
 	}
 
 	//TODO add custom command for this, or just watch the config files?
@@ -91,11 +95,9 @@ public class KoTweaks implements ModInitializer {
 		registryLookup = server.registryAccess();
 	}
 
-	private static int flag1 = 0;
 	static {
 		Reflections reflections = new Reflections("net.minecraft.network.protocol");
 		reflections.getSubTypesOf(Packet.class).forEach(packetClass -> {
-			List<Field> fields = new ArrayList<>();
 			boolean flag1 = false;
 			if (packetClass.isRecord()) {
 				for (RecordComponent field : packetClass.getRecordComponents()) {

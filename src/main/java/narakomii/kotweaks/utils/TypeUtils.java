@@ -31,6 +31,7 @@ public final class TypeUtils {
         return new LazySupplier<>(supplier);
     }
 
+    @SafeVarargs
     public static <T> T firstNonNull(T... values) {
         for (T value : values) {
             if (value != null) {
