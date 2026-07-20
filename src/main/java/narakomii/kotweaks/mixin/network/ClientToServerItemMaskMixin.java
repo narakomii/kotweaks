@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(ServerGamePacketListenerImpl.class)
-abstract class C2SItemMaskMixin {
+abstract class ClientToServerItemMaskMixin {
     @ModifyVariable(method = "handleSetCreativeModeSlot", at = @At("HEAD"), argsOnly = true, name = "packet")
     public ServerboundSetCreativeModeSlotPacket handleSetCreativeModeSlot(final ServerboundSetCreativeModeSlotPacket packet) {
         try {

@@ -53,8 +53,15 @@ public class KoTweaks implements ModInitializer {
 	public static final File FOLDER = FabricLoader.getInstance().getConfigDir().resolve(MOD_ID).toFile();
 
 	//TODO add /locator option to change settings of another player
-
+	//TODO make packed ice drop without silk touch
+	//TODO enchantment for more block reach
 	//TODO what class/method did i find in another mod and copy? i need to credit it
+	//DONE? fix verymanyplayers item entity chunkban (it was just masking bundled packets...)
+	//TODO custom logger class to reduce boilerplate like KoTweaks.LOGGER.error(CommandUtils.formatError("This is an error", e))1
+	//TODO remove ice variants from #minecraft:cannot_support_snow_layer
+	//TODO make comparators measure crop age?
+	//TODO bigger xp bottles?
+	//TODO implement stuff like xp consumption instead of level consumption from "improved anvils" mod
 
 	public static HolderLookup.Provider registryLookup;
 

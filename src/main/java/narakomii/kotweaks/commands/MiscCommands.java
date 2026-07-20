@@ -1,6 +1,7 @@
 package narakomii.kotweaks.commands;
 
 import com.mojang.brigadier.Command;
+import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import dev.codedsakura.blossom.lib.permissions.Permissions;
@@ -26,6 +27,8 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
@@ -33,7 +36,13 @@ import java.util.Random;
 
 public class MiscCommands {
     private static final SimpleCommandExceptionType NONLIVING_ENTITY = new SimpleCommandExceptionType(Component.literal("Targets must be living"));
+    private static final SimpleCommandExceptionType OUTOFREACH_ENTITY = new SimpleCommandExceptionType(Component.literal("Target is too far away"));
+    private static final SimpleCommandExceptionType EMPTY_ITEM = new SimpleCommandExceptionType(Component.literal("Can't transfer nothing"));
+    private static final SimpleCommandExceptionType NOSPACE_ENTITY = new SimpleCommandExceptionType(Component.literal("Target's inventory is too full"));
 
+    private static final double MAX_RANGE = 10;
+
+    //TODO /transfer, moves the selected item to another person's inventory (fail if they're out of range or if their inventory is full)
     public static void init() {
         CommandUtils.addCommand(registry -> Commands.literal("maul")
                 .requires(Permissions.require("kotweaks.maul", PermissionLevel.GAMEMASTERS.id()).or(CommandUtils::enabled))
@@ -56,27 +65,58 @@ public class MiscCommands {
 
                                     return Command.SINGLE_SUCCESS;
                                 })
-                ));
+                )
+        );
         CommandUtils.addCommand(registry -> Commands.literal("rock")
                 .requires(Permissions.require("kotweaks.rock", PermissionLevel.GAMEMASTERS.id()).or(CommandUtils::enabled))
                 .executes(context -> {
                     CommandSourceStack source = context.getSource();
                     CommandUtils.tell(context, Component.literal("You have thrown a rock, but you have also summoned a meteor!").withStyle(ChatFormatting.BLUE));
                     List<ServerPlayer> players = source.getServer().getPlayerList().getPlayers();
-                    int meteorIndex = new Random().nextInt(players.size());
+                    int meteorIndex = new Random().nextInt(Math.min(players.size(), 2));
 
                     for (int i = 0; i < players.size(); i++) {
                         ServerPlayer player = players.get(i);
                         if (player == null) continue;
                         if (i == meteorIndex) {
-                            ItemUtils.give(player.getInventory(), ModItems.METEOR.getDefaultInstance(), 1);
+                            ItemUtils.giveAsDrop(player, ModItems.METEOR.getDefaultInstance());
                         } else {
-                            ItemUtils.give(player.getInventory(), ModItems.ROCK.getDefaultInstance(), 1);
+                            ItemUtils.giveAsDrop(player, ModItems.ROCK.getDefaultInstance());
                         }
                     }
 
                     return Command.SINGLE_SUCCESS;
-                }));
+                })
+        );
+        CommandUtils.addCommand(registry -> Commands.literal("transfer")
+                .requires(Permissions.require("kotweaks.transfer", PermissionLevel.ALL.id()).or(CommandUtils::enabled))
+                .then(
+                        Commands.argument("target", EntityArgument.player())
+                                .executes(context -> transfer(context.getSource().getPlayerOrException(), EntityArgument.getPlayer(context, "target"), false))
+                                .then(
+                                        Commands.literal("force")
+                                                .executes(context -> transfer(context.getSource().getPlayerOrException(), EntityArgument.getPlayer(context, "target"), true))
+                                )
+                )
+        );
+    }
+
+    private static int transfer(ServerPlayer source, ServerPlayer target, boolean force) throws CommandSyntaxException {
+        if (!source.level().equals(target.level()) || source.distanceToSqr(target) > MAX_RANGE * MAX_RANGE)
+            throw OUTOFREACH_ENTITY.create();
+
+        var item = source.getInventory().getItem(source.getInventory().getSelectedSlot());
+        if (item == null || item.isEmpty())
+            throw EMPTY_ITEM.create();
+        item = item.copy();
+
+        if (!force && ItemUtils.totalSpaceForItem(target.getInventory(), item) < item.getCount())
+            throw NOSPACE_ENTITY.create();
+
+        source.getInventory().removeItem(source.getInventory().getSelectedSlot(), item.count());
+        ItemUtils.giveAsDrop(target, item);
+
+        return Command.SINGLE_SUCCESS;
     }
 
     private static void maul(LivingEntity target) throws CommandSyntaxException {

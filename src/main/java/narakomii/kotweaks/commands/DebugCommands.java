@@ -62,35 +62,39 @@ public class DebugCommands {
                                 .requires(CommandUtils.predicate("item.give", PermissionLevel.MODERATORS))
                                 .executes(wrap(ctx -> {
                                     Inventory inv = ctx.getSource().getPlayerOrException().getInventory();
-                                    ItemStack stack = getSelectedItem(inv);
+                                    ItemStack stack = CommandUtils.getSelectedItem(inv);
                                     ItemUtils.give(inv, stack, stack.getCount());
                                 }))
                         )
                         .then(Commands.literal("max")
                                 .requires(CommandUtils.predicate("item.give", PermissionLevel.MODERATORS))
-                                .executes(wrap(ctx -> getSelectedItem(ctx.getSource().getPlayerOrException().getInventory()).setCount(99)))
+                                .executes(wrap(ctx -> CommandUtils.getSelectedItem(ctx.getSource().getPlayerOrException().getInventory()).setCount(99)))
                         )
                         .then(Commands.literal("count")
                                 .requires(CommandUtils.predicate("item.give", PermissionLevel.MODERATORS))
                                 .then(Commands.argument("count", IntegerArgumentType.integer(1, 99))
-                                        .executes(wrap(ctx -> getSelectedItem(ctx.getSource().getPlayerOrException().getInventory()).setCount(IntegerArgumentType.getInteger(ctx, "count"))))
+                                        .executes(wrap(ctx -> CommandUtils.getSelectedItem(ctx.getSource().getPlayerOrException().getInventory()).setCount(IntegerArgumentType.getInteger(ctx, "count"))))
                                 )
                         )
                         .then(Commands.literal("modify")
                                         .requires(CommandUtils.predicate("item.give", PermissionLevel.MODERATORS))
                                 //.then(Commands.argument("nbt", DataComponentPatch))
+                                //TODO custom format with syntax like:
+                                // base item:     [enchantments={mending:1}]
+                                // command input: [~enchantments={sharpness:5}]
+                                // output item:   [enchantments={mending:1,sharpness:5}]
                         )
                         .then(Commands.literal("info")
                                 .requires(CommandUtils.predicate("item.info", PermissionLevel.ALL))
                                 .executes(wrap(ctx -> {
-                                    var item = getSelectedItem(ctx.getSource().getPlayerOrException().getInventory());
+                                    var item = CommandUtils.getSelectedItem(ctx.getSource().getPlayerOrException().getInventory());
                                     CommandUtils.tell(ctx, CommandUtils.formatItem(item, true));
                                 }))
                         )
                         .then(Commands.literal("info-long")
                                 .requires(CommandUtils.predicate("item.info", PermissionLevel.ALL))
                                 .executes(wrap(ctx -> {
-                                    var item = getSelectedItem(ctx.getSource().getPlayerOrException().getInventory());
+                                    var item = CommandUtils.getSelectedItem(ctx.getSource().getPlayerOrException().getInventory());
                                     CommandUtils.tell(ctx, CommandUtils.formatItem(item, false));
                                 }))
                         )
@@ -241,10 +245,6 @@ public class DebugCommands {
                         )
                 )
         );
-    }
-
-    private static ItemStack getSelectedItem(Inventory inventory) {
-        return inventory.getItem(inventory.getSelectedSlot());
     }
 
     private static Command<CommandSourceStack> wrap(Callback command) {

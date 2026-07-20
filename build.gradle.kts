@@ -1,5 +1,5 @@
 plugins {
-	id("net.fabricmc.fabric-loom")
+	id("net.fabricmc.fabric-loom") version "1.17-SNAPSHOT"
 	`maven-publish`
 }
 
@@ -13,9 +13,18 @@ repositories {
 	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
 	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
 	// for more information about repositories.
-	maven { url = uri("https://maven.nucleoid.xyz") }
-	maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots") }
-	maven { url = uri("https://maven.codedsakura.dev/releases") }
+	maven {
+		url = uri("https://maven.nucleoid.xyz")
+		content { excludeGroupByRegex("com\\.github\\..*") }
+	}
+	maven {
+		url = uri("https://oss.sonatype.org/content/repositories/snapshots")
+		content { excludeGroupByRegex("com\\.github\\..*") }
+	}
+	maven {
+		url = uri("https://maven.codedsakura.dev/releases")
+		content { excludeGroupByRegex("com\\.github\\..*") }
+	}
 }
 
 fabricApi {

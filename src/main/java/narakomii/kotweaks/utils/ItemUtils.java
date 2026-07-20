@@ -6,6 +6,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
@@ -72,12 +74,40 @@ public final class ItemUtils {
     }
 
     public static void give(Inventory inventory, ItemStack stack, int count) {
+        give(inventory, stack, count, true);
+    }
+    public static void give(Inventory inventory, ItemStack stack, int count, boolean silent) {
         int maxStackSize = stack.getMaxStackSize();
         int remaining = count;
+
         while (remaining > 0) {
             int size = Math.min(maxStackSize, remaining);
             remaining -= size;
-            inventory.add(stack.copyWithCount(size));
+            ItemStack copyToDrop = stack.copyWithCount(size);
+            boolean added = inventory.add(copyToDrop);
+
+            if (!silent) {
+                if (added && copyToDrop.isEmpty()) {
+                    inventory.player.level()
+                            .playSound(
+                                    null,
+                                    inventory.player.getX(),
+                                    inventory.player.getY(),
+                                    inventory.player.getZ(),
+                                    SoundEvents.ITEM_PICKUP,
+                                    SoundSource.PLAYERS,
+                                    0.2F,
+                                    ((inventory.player.getRandom().nextFloat() - inventory.player.getRandom().nextFloat()) * 0.7F + 1.0F) * 2.0F
+                            );
+                    inventory.player.containerMenu.broadcastChanges();
+                } else {
+                    ItemEntity drop = inventory.player.drop(copyToDrop, false);
+                    if (drop != null) {
+                        drop.setNoPickUpDelay();
+                        drop.setTarget(inventory.player.getUUID());
+                    }
+                }
+            }
         }
     }
 
@@ -86,9 +116,25 @@ public final class ItemUtils {
         ItemEntity item = new ItemEntity(level, entity.position().x, entity.position().y + 0.5, entity.position().z, stack, 0, 0.2, 0);
         item.setNoPickUpDelay();
         level.addFreshEntity(item);
+        item.setTarget(entity.getUUID());
         if (entity instanceof Player player) {
             item.playerTouch(player);
         }
+    }
+
+    public static int totalSpaceForItem(Inventory inventory, ItemStack stack) {
+        int total = 0;
+        int maxStackSize = stack.getMaxStackSize();
+
+        for (ItemStack slot : inventory) {
+            if (slot.isEmpty()) {
+                total += maxStackSize;
+            } else if (ItemStack.isSameItemSameComponents(slot, stack) && slot.isStackable() && slot.getCount() < maxStackSize) {
+                total += maxStackSize - slot.getCount();
+            }
+        }
+
+        return total;
     }
 
     public static <T> DataComponentMap with(DataComponentMap components, DataComponentType<T> type, T value) {

@@ -20,7 +20,7 @@
 			"narakomii.kotweaks.KoTweaks"
 		],
 		"fabric-datagen": [
-			"narakomii.kotweaks.datagen.DataGenerator"
+			"narakomii.kotweaks.game.datagen.DataGenerator"
 		]
 	},
 	"mixins": [

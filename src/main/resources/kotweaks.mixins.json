@@ -28,11 +28,10 @@
     "item.broken.BrokenEnchantMaskMixin",
     "item.broken.BrokenItemStackMixin",
     "item.broken.BrokenMaceMixin",
-    "network.C2SItemMaskMixin",
+    "network.ClientToServerItemMaskMixin",
     "network.FabricRegistryOverrideMixin",
     "network.LocatorConnectionMixin",
-    "network.S2CEntityItemMaskMixin",
-    "network.S2CItemMaskMixin",
+    "network.ServerToClientItemMaskMixin",
     "world.LevelSleepMixin"
   ],
   "injectors": {

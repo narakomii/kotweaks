@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "narakomii.kotweaks.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "plugin": "narakomii.kotweaks.MixinPlugin",
+  "mixins": [
+    "mods.vmp.MixinClientConnectionMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}

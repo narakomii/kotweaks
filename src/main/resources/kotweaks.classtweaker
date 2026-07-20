@@ -14,3 +14,9 @@ accessible field net/minecraft/world/item/ItemStack count I
 accessible field net/minecraft/world/item/ItemStack components Lnet/minecraft/core/component/PatchedDataComponentMap;
 accessible field net/minecraft/world/entity/player/Player DATA_PLAYER_ABSORPTION_ID Lnet/minecraft/network/syncher/EntityDataAccessor;
 accessible field net/minecraft/client/multiplayer/KnownPacksManager knownPackToId Ljava/util/Map;
+accessible field net/minecraft/server/level/ServerEntity synchronizer Lnet/minecraft/server/level/ServerEntity$Synchronizer;
+accessible field net/minecraft/server/level/ServerEntity entity Lnet/minecraft/world/entity/Entity;
+accessible field net/minecraft/server/level/ChunkMap entityMap Lit/unimi/dsi/fastutil/ints/Int2ObjectMap;
+accessible field net/minecraft/server/level/ChunkMap$TrackedEntity serverEntity Lnet/minecraft/server/level/ServerEntity;
+accessible field net/minecraft/network/syncher/SynchedEntityData isDirty Z
+accessible field net/minecraft/world/entity/item/ItemEntity DATA_ITEM Lnet/minecraft/network/syncher/EntityDataAccessor;

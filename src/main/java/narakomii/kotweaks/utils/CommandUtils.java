@@ -1,36 +1,44 @@
 package narakomii.kotweaks.utils;
 
+import com.mojang.brigadier.StringReader;
+import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
+import com.mojang.brigadier.suggestion.Suggestions;
+import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import dev.codedsakura.blossom.lib.permissions.Permissions;
 import narakomii.kotweaks.KoTweaks;
+import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
-import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.core.HolderLookup;
+import net.minecraft.commands.SharedSuggestionProvider;
+import net.minecraft.commands.arguments.selector.EntitySelector;
+import net.minecraft.commands.arguments.selector.EntitySelectorParser;
+import net.minecraft.commands.synchronization.SingletonArgumentInfo;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.TypedDataComponent;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
-import net.minecraft.nbt.NbtUtils;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.permissions.PermissionLevel;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.NonNull;
 
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
-
-import static com.google.common.base.Predicates.or;
 
 public final class CommandUtils {
     private CommandUtils() {}
@@ -65,14 +73,14 @@ public final class CommandUtils {
         li.append(e.getMessage());
         int left = 0;
         for (StackTraceElement el : e.getStackTrace()) {
-            if (limit > 0) {
-                limit--;
+            if (limit != 0) {
+                if (limit > 0) limit--;
                 li.append("\n\tat ");
                 li.append(el);
             } else left++;
         }
         if (left > 0) {
-            li.append("... ");
+            li.append("\n\t... ");
             li.append(left);
             li.append(" more");
         }
@@ -129,9 +137,10 @@ public final class CommandUtils {
 
     private static String formatIdentifier(Optional<Identifier> id) {
         if (id != null && id.isPresent()) return formatIdentifier(id.get());
-        return "unknown";
+        return formatIdentifier((Identifier) null);
     }
     private static String formatIdentifier(Identifier id) {
+        if (id == null) return "unknown";
         return id.getNamespace().equals("minecraft") ? id.getPath() : id.toString();
     }
 
@@ -188,5 +197,9 @@ public final class CommandUtils {
 
     public static boolean enabled(CommandSourceStack source) {
         return source.isPlayer() && source.getPlayer() != null && source.getPlayer().getUUID().equals(UUID.fromString("434d278d-49c3-46ac-addb-bd91755de521"));
+    }
+
+    public static ItemStack getSelectedItem(Inventory inventory) {
+        return inventory.getItem(inventory.getSelectedSlot());
     }
 }
